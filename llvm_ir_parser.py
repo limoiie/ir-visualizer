@@ -26,31 +26,36 @@ class BlockParser:
         edge = pydot.Edge(var_node, op_node)
         self.ast.add_edge(edge)
 
+        is_constexpr = var_node.get('ntyp') == 'v'
         for opr in opr_list:
             opr_node = self.__var_node(opr, typ)
+            is_constexpr &= opr_node.get('ntyp') in ['c', 'ce']
             edge = pydot.Edge(op_node, opr_node)
             self.ast.add_edge(edge)
+
+        if is_constexpr:
+            var_node.set('ntyp', 'ce')
 
     def __id(self):
         self.id_base += 1
         return self.id_base
 
     def __op_node(self, op):
-        op_name = f'"{op}#{self.__id():02}"'
+        op_name, ntyp = f'"{op}#{self.__id():02}"', 'op'
         label = op_map[op] if op in op_map else op
-        n = pydot.Node(op_name, label=label)
+        n = pydot.Node(op_name, label=label, ntyp=ntyp)
         self.ast.add_node(n)
         return n
 
     def __var_node(self, var, typ):
-        var_name = f'"${var[1:]}"'
+        var_name, ntyp = f'"${var[1:]}"', 'v'
         if not var.startswith('%'):
-            var_name = f'"{var}#{self.__id()}"'
+            var_name, ntyp = f'"{var}#{self.__id()}"', 'c'
         n = self.ast.get_node(var_name)
         if n:
             return n[0]
 
-        n = pydot.Node(var_name, label=var, typ=typ)
+        n = pydot.Node(var_name, label=var, typ=typ, ntyp=ntyp)
         self.ast.add_node(n)
         return n
 

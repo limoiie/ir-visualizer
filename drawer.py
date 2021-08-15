@@ -15,6 +15,7 @@ class ASTDrawer:
         self.style_map = {
             'v': self.__style_var_node,
             'c': self.__style_const_node,
+            'ce': self.__style_constexpr_node,
             'op': self.__style_op_node,
             '?': self.__style_default_node
         }
@@ -54,20 +55,19 @@ class ASTDrawer:
     def __style_const_node(self, node: pydot.Node):
         node.set('fontname', self.font_name)
         node.set('shape', 'box')
+        node.set('color', 'blue')
+
+    def __style_constexpr_node(self, node: pydot.Node):
+        node.set('fontname', self.font_name)
+        node.set('color', 'blue')
 
     def __style_default_node(self, node: pydot.Node):
         node.set('fontname', self.font_name)
 
     @staticmethod
     def __node_type(node: pydot.Node):
-        l: str = node.get_attributes()['label']
-        if l.startswith('$'):
-            return 'v'   # var
-        if l.startswith('0x'):
-            return 'c'   # const
-        if l in ['&', '|', '^', '<<', '>>']:
-            return 'op'  # operator
-        return '?'       # default
+        ntyp = node.get('ntyp')
+        return ntyp if ntyp else 'default'
 
 
 class Test(unittest.TestCase):
