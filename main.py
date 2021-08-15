@@ -2,6 +2,7 @@ import fire
 
 import networkx as nx
 
+from analysis.fold_constant import FoldConstant
 from drawer import ASTDrawer
 from llvm_ir_parser import BlockParser
 
@@ -13,8 +14,7 @@ def paint(ir_file='sample.bc'):
     parser = BlockParser()
     parser.block_parser(block)
 
-    ast = nx.nx_pydot.from_pydot(parser.ast)
-    ast = nx.nx_pydot.to_pydot(ast)
+    ast = FoldConstant(parser.ast).run()
 
     drawer = ASTDrawer(ast)
     drawer.draw(save_file='plot')

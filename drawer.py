@@ -33,9 +33,9 @@ class ASTDrawer:
             with open(f'{save_file}.{fmt}', 'wb+') as f:
                 f.write(p)
 
-        plt.figure(figsize=(24, 24), dpi=200)
-        plt.imshow(img)
-        plt.show()
+        # plt.figure(figsize=(24, 24), dpi=200)
+        # plt.imshow(img)
+        # plt.show()
 
     def __adjust_style(self):
         for n in self.g.get_node_list():
