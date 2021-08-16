@@ -4,19 +4,17 @@ import unittest
 import pydot
 
 
-class BlockParser:
+class LlvmIrBlockParser:
     def __init__(self):
         self.ast = pydot.Dot()
         self.id_base = 0
 
-    def block_parser(self, ir_block: str):
+    def parser(self, ir_block: str):
         for inst_line in ir_block.split(sep='\n'):
             inst_line = inst_line.strip()
-            if len(inst_line) == 0:
+            if not inst_line:
                 continue
             self.__handle_inst_line(inst_line)
-            pass
-        pass
 
     def __handle_inst_line(self, line):
         (var, op, typ, opr_list) = _parse_inst_line(line)

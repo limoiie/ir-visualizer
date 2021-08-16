@@ -4,7 +4,7 @@ import unittest
 import pydot
 from matplotlib import image as pimg, pyplot as plt
 
-from llvm_ir_parser import BlockParser
+from llvm_ir_parser import LlvmIrBlockParser
 
 
 class ASTDrawer:
@@ -101,8 +101,8 @@ class Test(unittest.TestCase):
 %1900 = and i32 %1899, 0x41F9C030
 %1901 = and i32 0xFFFFFFFF, %1897
 '''
-        parser = BlockParser()
-        parser.block_parser(block)
+        parser = LlvmIrBlockParser()
+        parser.parser(block)
 
         drawer = ASTDrawer(parser.ast)
         drawer.draw()

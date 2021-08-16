@@ -6,7 +6,8 @@ from analysis.fold_constant import FoldConstant
 from analysis.mark_entries import MarkEntries
 from analysis.prune_branches import PruneBranches
 from drawer import ASTDrawer
-from llvm_ir_parser import BlockParser
+from llvm_ir_parser import LlvmIrBlockParser
+
 
 
 def paint(ir_file='sample.bc'):
