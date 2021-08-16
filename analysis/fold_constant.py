@@ -4,22 +4,25 @@ import networkx as nx
 
 
 class FoldConstant:
-    def __init__(self, ast):
-        self.ast: nx.DiGraph = nx.drawing.nx_pydot.from_pydot(ast)
+    def __init__(self):
+        self.ast: nx.DiGraph = nx.DiGraph()
         self.dead_edges = []
         self.dead_nodes = []
 
         self.op_fn_map = {
             '&': lambda x, y: x & y,
-            '|': lambda x, y: x & y,
-            '^': lambda x, y: x & y,
+            '|': lambda x, y: x | y,
+            '^': lambda x, y: x ^ y,
         }
 
-    def run(self):
+    def run(self, ast: nx.DiGraph):
+        assert isinstance(ast, nx.DiGraph)
+        self.ast = ast
+
         for n in self.ast.nodes:
             self.__fold_constexpr(n)
         self.__clean_dead()
-        return nx.drawing.nx_pydot.to_pydot(self.ast)
+        return self.ast
 
     def __fold_constexpr(self, curr):
         node_curr = self.ast.nodes[curr]

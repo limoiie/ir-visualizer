@@ -1,5 +1,7 @@
 import fire
 
+from analysis.analysis_manager import AnalysisManager
+from analysis.clean_drop_off import CleanDropOff
 from analysis.fold_constant import FoldConstant
 from drawer import ASTDrawer
 from llvm_ir_parser import BlockParser
@@ -12,7 +14,10 @@ def paint(ir_file='sample.bc'):
     parser = BlockParser()
     parser.block_parser(block)
 
-    ast = FoldConstant(parser.ast).run()
+    ast = AnalysisManager([
+        FoldConstant(),
+        CleanDropOff()
+    ])(parser.ast)
 
     drawer = ASTDrawer(ast)
     drawer.draw(save_file='plot')
