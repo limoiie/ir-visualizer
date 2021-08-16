@@ -1,7 +1,5 @@
 import fire
 
-import networkx as nx
-
 from analysis.fold_constant import FoldConstant
 from drawer import ASTDrawer
 from llvm_ir_parser import BlockParser

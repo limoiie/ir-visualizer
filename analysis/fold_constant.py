@@ -1,11 +1,6 @@
 from functools import reduce
 
 import networkx as nx
-import pydot
-
-
-def fold_constant(g: pydot.Dot):
-    pass
 
 
 class FoldConstant:
@@ -27,8 +22,6 @@ class FoldConstant:
         return nx.drawing.nx_pydot.to_pydot(self.ast)
 
     def __fold_constexpr(self, curr):
-        print(f'visit {curr}')
-
         node_curr = self.ast.nodes[curr]
         if node_curr['ntyp'] == 'c':
             return node_curr
@@ -63,7 +56,6 @@ class FoldConstant:
         self.ast.remove_nodes_from(self.dead_nodes)
 
     def __simulate_exp(self, op, opr_node_list: list):
-        print(f'simulating {opr_node_list}')
         l = map(lambda node: int(node['label'], 16), opr_node_list)
         return reduce(self.__fn_of(op), l)
 
