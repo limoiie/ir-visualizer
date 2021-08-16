@@ -6,6 +6,7 @@ from analysis.clean_drop_off import CleanDropOff
 from analysis.fold_constant import FoldConstant
 from analysis.mark_entries import MarkEntries
 from analysis.prune_branches import PruneBranches
+from analysis.simplify import Simplify
 from bap_ir_parser import BapIrBlockParser
 from drawer import ASTDrawer
 from llvm_ir_parser import LlvmIrBlockParser
@@ -19,7 +20,7 @@ def parser_factory(ir_file):
     }[ext]
 
 
-def paint(ir_file='sample.bir', tag='ana'):
+def paint(ir_file='sample.bc', tag='ana-new'):
     tag = f'-{tag}' if tag else tag
     with open(ir_file, 'r') as f:
         block = f.read()
@@ -31,7 +32,8 @@ def paint(ir_file='sample.bir', tag='ana'):
         FoldConstant(),
         CleanDropOff(),
         MarkEntries(fill_color='black'),
-        PruneBranches()
+        PruneBranches(),
+        Simplify()
     ])(parser.ast)
 
     drawer = ASTDrawer(ast)
