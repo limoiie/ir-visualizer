@@ -20,22 +20,23 @@ class ASTDrawer:
             '?': self.__style_default_node
         }
 
-    def draw(self, save_file='', fmt='png'):
+    def draw(self, show=False, save_file='', fmt='png'):
         self.__adjust_style()
         p = self.g.create(format=fmt)
-
-        sio = io.BytesIO()
-        sio.write(p)
-        sio.seek(0)
-        img = pimg.imread(sio)
 
         if save_file:
             with open(f'{save_file}.{fmt}', 'wb+') as f:
                 f.write(p)
 
-        # plt.figure(figsize=(24, 24), dpi=200)
-        # plt.imshow(img)
-        # plt.show()
+        if show:
+            sio = io.BytesIO()
+            sio.write(p)
+            sio.seek(0)
+            img = pimg.imread(sio)
+
+            plt.figure(figsize=(24, 24), dpi=200)
+            plt.imshow(img)
+            plt.show()
 
     def __adjust_style(self):
         for n in self.g.get_node_list():
