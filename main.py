@@ -20,7 +20,7 @@ def parser_factory(ir_file):
     }[ext]
 
 
-def paint(ir_file='sample.bir', tag='ana-new'):
+def paint(ir_file='.out/sample.bir', tag='ana-new'):
     tag = f'-{tag}' if tag else tag
     with open(ir_file, 'r') as f:
         block = f.read()
