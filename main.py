@@ -20,7 +20,7 @@ def parser_factory(ir_file):
     }[ext]
 
 
-def paint(ir_file='sample.bc', tag='ana-new'):
+def paint(ir_file='sample.bir', tag='ana-new'):
     tag = f'-{tag}' if tag else tag
     with open(ir_file, 'r') as f:
         block = f.read()
@@ -38,6 +38,9 @@ def paint(ir_file='sample.bc', tag='ana-new'):
 
     drawer = ASTDrawer(ast)
     drawer.draw(save_file=f'{ir_file}{tag}')
+
+    with open(f'{ir_file}{tag}.dot', 'w+') as f:
+        f.write(ast.to_string())
 
 
 if __name__ == '__main__':
